@@ -3,9 +3,11 @@ import Header from '../header';
 import Content from '../content';
 import Items from '../items';
 import Menu from '../menu';
+import { ButtonAppContainer } from '../../shared/uibuttons';
 
 function App() {
   return (
+    <ButtonAppContainer>
     <div className={styles.app}> 
     <Header /> 
     <Content> 
@@ -13,6 +15,7 @@ function App() {
     </Content>   
     <Menu />
     </div>
+    </ButtonAppContainer>
   );
 }
 

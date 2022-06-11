@@ -1,15 +1,17 @@
 import Item from '../item';
-import Button from '../../shared/uibuttons';
+import { FloatingButton, ButtonContainer } from '../../shared/uibuttons';
 
 function Items(props) {
     return(
+        <ButtonContainer>
         <div>
             <Item />
             <Item />
             <Item />
             <Item />
-            <Button primary> LISÄÄ UUSI</Button>
+            <FloatingButton secondary>+</FloatingButton>
         </div>
+        </ButtonContainer>
     )
 }
 
