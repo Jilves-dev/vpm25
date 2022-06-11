@@ -23,7 +23,7 @@
     opacity:1;
 }
 
-.uibutton--primery {
+.uibutton--primary {
     background-color: #0285ee;
     color: #fff;
 }
@@ -33,7 +33,7 @@
 }
 
 .uibutton--secondary {
-    background-color: #ff9b3e;
+    background-color: #ee6c02;
     color: #fff;
 }
 

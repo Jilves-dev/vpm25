@@ -8,7 +8,7 @@ function Items(props) {
             <Item />
             <Item />
             <Item />
-            <Button> LISÄÄ UUSI</Button>
+            <Button primary> LISÄÄ UUSI</Button>
         </div>
     )
 }
