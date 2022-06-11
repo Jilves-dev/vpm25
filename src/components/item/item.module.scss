@@ -1,0 +1,47 @@
+@import '../../assets/styles/_config.scss';
+
+.item {
+    display: flex;
+    border-bottom: 1px solid; 
+    //$item-border;
+    color: $item-text;
+}
+
+.item_data {
+    // flex = käyttää koko 'data' tilan
+    flex: 1;
+    display: grid;
+    // ruinka monta riviä?
+    grid-template-columns: 1fr 1fr;
+    padding: $item-padding;
+} 
+
+.item_pv, .item_klo {
+    font-weight: bold;
+   // grid-template-columns: 1fr 1fr 1fr;
+} 
+
+
+.item_apip, .item_yp, .item_syke {
+    text-align: right;
+} 
+
+.item_pv, .item_klo {
+    font-weight: bold;
+    color: $item-text-strong;
+} 
+
+
+.item_edit {
+    max-width: $item-edit-width;
+    min-width: $item-edit-width;
+    background-color: $item-edit-background;
+    color: $item-edit-text;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.item:hover .item_edit {
+    display: flex;
+}
