@@ -1,0 +1,13 @@
+import styles from './additem.module.scss';
+import ItemForm from '../../components/itemform';
+
+function AddItem(props) {
+    return(
+        <div className={styles.additem}>
+            <h2>Uuden mittaustuloksen lisääminen</h2>
+            <ItemForm />
+        </div>
+    )
+}
+
+export default AddItem;

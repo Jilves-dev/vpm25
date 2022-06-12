@@ -3,8 +3,10 @@ import styles from './app.module.scss';
 import Header from '../header';
 import Content from '../content';
 import Items from '../../routes/items';
+//import Items2 from '../../routes/items2';
 import Stats from '../../routes/stats';
 import Settings from '../../routes/settings';
+import AddItem from '../../routes/additem';
 import Menu from '../menu';
 import { ButtonAppContainer } from '../../shared/uibuttons';
 import testdata from '../../testdata.js';
@@ -24,6 +26,9 @@ function App() {
       </Route>
       <Route exact path="/settings">
       <Settings />
+      </Route>
+      <Route exact path="/add">
+      <AddItem />
       </Route>
     </Content>   
     <Menu />
