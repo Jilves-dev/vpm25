@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const useForm = (callback, initialState={}, resetOnSubmit=true) => {
+const useForm2 = (callback, initialState={}, resetOnSubmit=true) => {
     //esitellään usestate hook johon käyttäjän 
     //lomakkeelle syöttämätieto tallennetaan
     //initialState = se mitä syötetty tai {} tyhjä ?
@@ -41,4 +41,4 @@ const useForm = (callback, initialState={}, resetOnSubmit=true) => {
     }
 } 
 
-export default useForm;
+export default useForm2; 

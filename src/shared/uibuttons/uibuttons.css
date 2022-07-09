@@ -33,12 +33,12 @@
 }
 
 .uibutton--secondary {
-    background-color: #ee6c02;
+    background-color: #ff0000;
     color: #fff;
 }
 
 .uibutton--secondary:active {
-    background-color: #ff9b3e;
+    background-color: #ff6347;
 }
 
 .uibutton:disabled {

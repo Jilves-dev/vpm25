@@ -18,11 +18,11 @@
 
 .item_pv, .item_klo {
     font-weight: bold;
-   // grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
 } 
 
 
-.item_apip, .item_yp, .item_syke, .item_period {
+.item_apip, .item_yp, .item_syke {
     text-align: right;
 } 
 
@@ -30,7 +30,6 @@
     font-weight: bold;
     color: $item-text-strong;
 } 
-
 
 .item_edit {
     max-width: $item-edit-width;
@@ -40,6 +39,10 @@
     display: none;
     justify-content: center;
     align-items: center;
+}
+
+.item_edit a {
+    color: $item-edit-text;
 }
 
 .item:hover .item_edit {

@@ -22,7 +22,7 @@
 } 
 
 
-.item_apip, .item_yp, .item_syke, .item_period {
+.item_apip, .item_yp, .item_syke, .item_period, .item_average, .item_average2, .item_average3 {
     text-align: right;
 } 
 
@@ -30,6 +30,23 @@
     font-weight: bold;
     color: $item-text-strong;
 } 
+
+.item{
+    display: flex;
+    border-bottom: 1px solid $item-border;
+    color: $item-text;
+}
+
+.item_data {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: $item-padding;
+}
+
+.item_amount, .item_timespan, .item_average {
+    text-align: right;
+}
 
 
 .item_edit {

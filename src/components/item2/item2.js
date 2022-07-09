@@ -1,38 +1,58 @@
-import styles from './item2.module.scss';
-//import { MdNavigateNext } from "react-icons/md";
-//import { Link } from 'react-router-dom';
+import styles from './item2.module.scss'
 
 function Item2(props) {
 
     const locale = "fi-FI";
     //const pv = new Date(props.data.pv).toLocaleDateString(locale);
-    //const klo = new Date(props.data.klo).toLocaleTimeString(locale);
     const numberFormat = new Intl.NumberFormat;
 
     let average, average2, average3;
-    let period;
-    if (props.data.periodStart && props.data.periodEnd) {
+     let period;
+     if (props.data.periodStart && props.data.periodEnd) {
         const periodStart = new Date(props.data.periodStart);
         const periodEnd = new Date(props.data.periodEnd);
         period = periodStart.toLocaleDateString(locale) + " - " + periodEnd.toLocaleDateString(locale);
-        const days = (periodEnd - periodStart) / (1000*60*60*24);
+        const days = (periodEnd - periodStart) / (1000*60*60*24); 
         average = numberFormat.format(props.data.yp / days * 30);
         average2 = numberFormat.format(props.data.ap / days * 30);
         average3 = numberFormat.format(props.data.syke / days * 30);
-    }
+    } 
 
-    return(
-        <div className={styles.item}>
-            <div className={styles.item_data}>
+return(
+    <div className={styles.item}>
+        <div className={styles.item_data}>
             <div className={styles.item_timespan}>{period}</div>
-            <div className={styles.item_average}>Yläpaine, alapaine ja syke keskiarvo: {average ? average + "/" : ""} {average2 ? average2 + "/" : ""} {average3 ? average3 + " kk" : ""}</div>
-            </div>
-           
-        </div>
-    )
+            <div className={styles.item_average}>{average ? average + "/" : ""} {average2 ? average2 + "/" : ""} {average3 ? average3 +  "/kk" : ""}</div>
+        </div>                           
+    </div>
+);
 }
 
-export default Item2;
+export default Item2; 
+
+/* 
+
+const locale = "fi-FI";
+const paymentDate = new Date(props.data.paymentDate).toLocaleDateString(locale);
+const numberFormat = new Intl.NumberFormat(locale);
+const yp = numberFormat.format(props.data.yp); 
+const ap = numberFormat.format(props.data.yp); 
+const syke = numberFormat.format(props.data.yp); 
+let average, average2, average3;
+let period;
+if (props.data.periodStart && props.data.periodEnd) {
+    const periodStart = new Date(props.data.periodStart);
+    const periodEnd = new Date(props.data.periodEnd);
+    period = periodStart.toLocaleDateString(locale) + " - " + periodEnd.toLocaleDateString(locale);
+    const days = (periodEnd - periodStart) / (1000*60*60*24);
+    average = numberFormat.format(props.data.yp / days * 30);
+    average2 = numberFormat.format(props.data.ap / days * 30);
+    average3 = numberFormat.format(props.data.syke / days * 30); */
+
+//import { MdNavigateNext } from "react-icons/md";
+//import { Link } from 'react-router-dom';
+
+ 
 
 /* return(
     <div className={styles.item}>
@@ -52,3 +72,5 @@ export default Item2;
         </div>
     </div>
 ) */
+
+

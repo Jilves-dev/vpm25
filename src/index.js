@@ -1,24 +1,37 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/app';
 import reportWebVitals from './reportWebVitals';
+import { FirebaseAppProvider } from 'reactfire';
 
-/* ReactDOM.render(
-  <React.StrictMode>
+const firebaseConfig = {
+  apiKey: "AIzaSyBC6iDs1maQ1BvNJjzb_sky7q1EqqaM-fs",
+  authDomain: "verenpaine-mitta.firebaseapp.com",
+  projectId: "verenpaine-mitta",
+  storageBucket: "verenpaine-mitta.appspot.com",
+  messagingSenderId: "263488757444",
+  appId: "1:263488757444:web:2b4ec7eb3b6b3be00c3391",
+  measurementId: "G-VMHPSV57J6"
+};
+
+const root = document.getElementById('root');
+ReactDOM.render(
+  //<React.StrictMode>
+  <FirebaseAppProvider firebaseConfig={firebaseConfig}>
     <App />
+    </FirebaseAppProvider>
+    , root
+  //</React.StrictMode>
+);
+
+/*ReactDOM.render(
+  <React.StrictMode>
+  <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+    <App />
+    </FirebaseAppProvider>
   </React.StrictMode>,
   document.getElementById('root')
 ); */
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  //<React.StrictMode>
-    <App />
-  //</React.StrictMode>
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+ reportWebVitals();

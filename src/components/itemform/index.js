@@ -1,1 +1,1 @@
-export { default } from './itemform.js';
+export { default } from './itemform';

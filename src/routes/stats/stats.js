@@ -1,43 +1,101 @@
 import styles from './stats.module.scss';
-import Items2 from '../../routes/items2';
-import testdata from '../../testdata.js';
+import { Line, LineChart, XAxis, YAxis, ResponsiveContainer, CartesianGrid, Legend, Tooltip } from 'recharts';
 
 function Stats(props) {
 
-    /* const locale = "fi-FI";
-    const pv = new Date(props.data.pv).toLocaleDateString(locale);
-    const klo = new Date(props.data.klo).toLocaleTimeString(locale);
-    const numberFormat = new Intl.NumberFormat;
 
-    let average, average2, average3;
-    let period;
-    if (props.data.periodStart && props.data.periodEnd) {
-        const periodStart = new Date(props.data.periodStart);
-        const periodEnd = new Date(props.data.periodEnd);
-        period = periodStart.toLocaleDateString(locale) + " - " + periodEnd.toLocaleDateString(locale);
-        const days = (periodEnd - periodStart) / (1000*60*60*24);
-        average = numberFormat.format(props.data.yp / days * 30);
-        average2 = numberFormat.format(props.data.ap / days * 30);
-        average3 = numberFormat.format(props.data.syke / days * 30);
-    }
+        const linedata = props.data.map(item => ({ date: new Date(item.pv).getTime(), Systolinen: item.yp, Diastolinen: item.ap, Syke: item.syke }));
+
+        const sum = props.data.reduce(
+          (prevValue, currentValue) => prevValue + currentValue.yp,
+          0
+        );
+        const avg = (sum / props.data.length).toFixed(2);
+        
+        const sum2 = props.data.reduce(
+          (prevValue, currentValue) => prevValue + currentValue.ap,
+          0
+        );
+        const avg2 = (sum2 / props.data.length).toFixed(2);
+        
+        const sum3 = props.data.reduce(
+          (prevValue, currentValue) => prevValue + currentValue.syke,
+          0
+        );
+        const avg3  = (sum3 / props.data.length).toFixed(2); 
 
     return(
-        <div className={styles.item}>
-            <h2>Stats</h2>
-            <div className={styles.item_data}>
-            <div className={styles.item_timespan}>{period}</div>
-            <div className={styles.item_average}>Yläpaine, alapaine ja syke keskiarvo: {average ? average + "/" : ""} {average2 ? average2 + "/" : ""} {average3 ? average3 + " kk" : ""}</div>
-            </div>
-          
-        </div>
-    )
-} */
-    return(
+      <div className={styles.stats}>
+      
+         <h2>Tilastot</h2>
+       <div>
+       <p> Systolinen paine keskiarvo yhteensä on  { avg } mmHg </p>
+        </div> 
         <div>
-        <h2>stats</h2>
-        <Items2 data={testdata} />
+       <p> Diastolinen paine keskiarvo yhteensä on  { avg2 } mmHg </p>
         </div>
+        <div>
+       <p> Syke keskiarvo yhteensä on  { avg3 }  </p>
+        </div>
+        <div>
+       <p> Huom: verenpaineesi on koholla kun paine on 140/90 tai enemmän. </p>
+        </div>
+    
+        <br></br>
+
+        <ResponsiveContainer width={"100%"} height={360}>
+        <LineChart data={linedata}
+      width={500}
+      height={300}
+      margin={{
+        top: 20,
+        right: 20,
+        left: 20,
+        bottom: 10
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis 
+      type="number"
+      dataKey="date" 
+      domain={["dataMin", "dataMax"]} 
+          scale="time"
+          tickFormatter={timeStr => new Date(timeStr).toLocaleDateString("fi-FI")}
+
+      />
+<Legend />
+      <YAxis />
+     
+      <Line
+        type="linear"
+        dataKey="Systolinen"
+        stroke="#ff0000"
+        //"#8884d8"
+        activeDot={{ r: 8 }}
+      />
+   
+      <Line 
+      type="linear" 
+      dataKey="Diastolinen" 
+      stroke="#8884d8" 
+      activeDot={{ r: 8 }}
+      />
+
+      <Line 
+      type="linear" 
+      dataKey="Syke" 
+      stroke="#db7093" 
+      activeDot={{ r: 8 }}
+      />
+
+<Tooltip labelFormatter={value => new Date(value).toLocaleDateString("fi-FI")}/>
+    </LineChart>
+        </ResponsiveContainer>
+        </div>
+        
     );
 } 
 
 export default Stats; 
+
+ 
