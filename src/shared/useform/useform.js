@@ -11,10 +11,11 @@ const useForm = (callback, initialState={}, resetOnSubmit=true) => {
         if (event) {
             event.preventDefault();
         }
-        //kutsutaan callback
         callback();
         if(resetOnSubmit) resetValues();
     }
+
+  
     //syötekäsittelijä joka tekee muutoksen tallentaa kwentän tiedot state muuttujaan
     //event = lomakkeella tapahtuvat muutos
     const handleChange = (event) => {

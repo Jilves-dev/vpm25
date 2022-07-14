@@ -20,53 +20,61 @@ function App() {
   const [typelist, setTypelist] = useState([]);
 
   const itemCollectionRef = useFirestore().collection('item');
-  const { data: itemCollection } = useFirestoreCollectionData(itemCollectionRef, {initialData: [], idField: "id"});
+  const { data: itemCollection } = useFirestoreCollectionData(itemCollectionRef.orderBy("pv", "desc"), {initialData: [], idField: "id"}); 
 
-  console.log(itemCollection);
+  const typeCollectionRef = useFirestore().collection('type');
+  const { data: typeCollection } = useFirestoreCollectionData(typeCollectionRef.orderBy("type"), { initialData: []});
+  
   
   useEffect(() => {
-    setData(testdata);
-    setTypelist(["olo on ok", "mahdollinen rytmihäiriö", "olo on heikko"])
     //setData(testdata);
+    //setTypelist(["olo on ok", "mahdollinen rytmihäiriö", "olo on heikko"]);
   },[]);
 
   useEffect(() => {
-    setData(itemCollection);
-  }, [itemCollection]);
+  setData(itemCollection);
+  }, [itemCollection]); 
 
-  const handleItemSubmit = (newitem) => {
-    let storeddata = data.slice();
+   useEffect(() => {
+   const types = typeCollection.map(obj => obj.type);
+   setTypelist(types);
+   }, [typeCollection]);
+
+   const handleItemSubmit = (newitem) => {
+   itemCollectionRef.doc(newitem.id).set(newitem);
+  } 
+  /*  let storeddata = data.slice();
     const index = storeddata.findIndex(item => item.id === newitem.id);
     if(index >= 0){
-      storeddata[index] = newitem;      
+    storeddata[index] = newitem;      
     } else {
       storeddata.push(newitem);
+      //setData(storeddata);
     }
   
-
-    storeddata.sort((a,b) =>{
+    storeddata.sort( (a,b) =>{
       const aDate = new Date(a.paymentDate);
-      const bDate = new Date(a.paymentDate);
-      return bDate.getTime() - aDate.getTime();
-      
-    });
-
-    setData(storeddata);
-  }
+      const bDate = new Date(b.paymentDate);
+      return bDate.getTime() - aDate.getTime();    
+    } );
+    setData(storeddata);  */
+  
 
   const handleItemDelete = (id) => {
-    let storeddata = data.slice();
+    itemCollectionRef.doc(id).delete();
+    /* let storeddata = data.slice();
     // filtteröidään merkinnät joita ei poisteta
     storeddata = storeddata.filter(item => item.id !== id);
     setData(storeddata); 
-    alert("DELETE -> " + id);
+    alert("DELETE -> " + id); */
   }
 
   const handleTypeSubmit = (newtype) => {
-    let storedtypelist = typelist.slice();
+    typeCollectionRef.doc().set({type: newtype});
+    /*let storedtypelist = typelist.slice();
     storedtypelist.push(newtype);
     storedtypelist.sort();
-    setTypelist(storedtypelist);
+    setTypelist(storedtypelist); */
   }
 
   return (
@@ -82,7 +90,8 @@ function App() {
       <Stats data={data} />
       </Route>
       <Route exact path="/settings">
-      <Settings data={data} types={typelist} onTypeSubmit={handleTypeSubmit}/>
+      <Settings types={typelist} onTypeSubmit={handleTypeSubmit}/>
+    
       </Route>
       <Route exact path="/add">
       <AddItem onItemSubmit={handleItemSubmit} types={typelist}/>

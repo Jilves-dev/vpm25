@@ -1,1 +1,0 @@
-export { default } from './useform2.js';

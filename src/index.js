@@ -17,19 +17,25 @@ const firebaseConfig = {
 
 const root = document.getElementById('root');
 ReactDOM.render(
-  //<React.StrictMode>
   <FirebaseAppProvider firebaseConfig={firebaseConfig}>
     <App />
     </FirebaseAppProvider>
     , root
-  //</React.StrictMode>
-);
+    
+    );
 
-/*ReactDOM.render(
+      //<React.StrictMode>
+ // 
+ //   
+    
+  //</React.StrictMode>
+
+
+/*  ReactDOM.render(
   <React.StrictMode>
   <FirebaseAppProvider firebaseConfig={firebaseConfig}>
     <App />
-    </FirebaseAppProvider>
+  </FirebaseAppProvider>
   </React.StrictMode>,
   document.getElementById('root')
 ); */

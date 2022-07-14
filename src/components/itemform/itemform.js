@@ -1,6 +1,6 @@
 import styles from './itemform.module.scss';
-import useForm from '../../shared/useform';
 import Button from '../../shared/uibuttons';
+import useForm from '../../shared/useform';
 import { useHistory } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -13,7 +13,7 @@ function ItemForm(props) {
         storedvalues.yp = parseFloat(storedvalues.yp)
         storedvalues.ap = parseFloat(storedvalues.ap)
         storedvalues.syke = parseFloat(storedvalues.syke)
-        storedvalues.id = storedvalues.id ? storedvalues.id : uuidv4;
+        storedvalues.id = storedvalues.id ? storedvalues.id : uuidv4();
         props.onItemSubmit(storedvalues);
         alert("SUBMIT!");
         history.push("/");
@@ -55,8 +55,8 @@ function ItemForm(props) {
         <div>
             <label htmlFor="apip">aamu vai ilta? </label>
             <select name="apip" onChange={handleChange} value={values.apip}>
-                <option>aamu</option>
-                <option>ilta</option>
+                <option value="aamu">aamu</option>
+                <option value="ilta">ilta</option>
             </select>    
         </div>
         <div>

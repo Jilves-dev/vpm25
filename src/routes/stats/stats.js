@@ -29,13 +29,13 @@ function Stats(props) {
       
          <h2>Tilastot</h2>
        <div>
-       <p> Systolinen paine keskiarvo yhteensä on  { avg } mmHg </p>
+       <p> Systolinen paine keskiarvo on  { avg } mmHg </p>
         </div> 
         <div>
-       <p> Diastolinen paine keskiarvo yhteensä on  { avg2 } mmHg </p>
+       <p> Diastolinen paine keskiarvo on  { avg2 } mmHg </p>
         </div>
         <div>
-       <p> Syke keskiarvo yhteensä on  { avg3 }  </p>
+       <p> Syke keskiarvo on  { avg3 }  </p>
         </div>
         <div>
        <p> Huom: verenpaineesi on koholla kun paine on 140/90 tai enemmän. </p>
