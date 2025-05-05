@@ -16,7 +16,7 @@ const useForm = (callback, initialState={}, resetOnSubmit=true) => {
     }
 
   
-    //syötekäsittelijä joka tekee muutoksen tallentaa kwentän tiedot state muuttujaan
+    //syötekäsittelijä joka tekee muutoksen tallentaa kentän tiedot state muuttujaan
     //event = lomakkeella tapahtuvat muutos
     const handleChange = (event) => {
          //event kautta tapahtunut tapahtuma säilyy

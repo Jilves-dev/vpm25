@@ -5,7 +5,7 @@ function Stats(props) {
 
 
         const linedata = props.data.map(item => ({ date: new Date(item.pv).getTime(), Systolinen: item.yp, Diastolinen: item.ap, Syke: item.syke }));
-
+        // keskiarvojen laskeminen
         const sum = props.data.reduce(
           (prevValue, currentValue) => prevValue + currentValue.yp,
           0
@@ -45,13 +45,13 @@ function Stats(props) {
 
         <ResponsiveContainer width={"100%"} height={360}>
         <LineChart data={linedata}
-      width={500}
-      height={300}
-      margin={{
-        top: 20,
-        right: 20,
-        left: 20,
-        bottom: 10
+            width={500}
+            height={300}
+            margin={{
+            top: 20,
+            right: 20,
+            left: 20,
+            bottom: 10
       }}
     >
       <CartesianGrid strokeDasharray="3 3" />
@@ -61,16 +61,14 @@ function Stats(props) {
       domain={["dataMin", "dataMax"]} 
           scale="time"
           tickFormatter={timeStr => new Date(timeStr).toLocaleDateString("fi-FI")}
-
       />
-<Legend />
+      <Legend />
       <YAxis />
      
       <Line
         type="linear"
         dataKey="Systolinen"
         stroke="#ff0000"
-        //"#8884d8"
         activeDot={{ r: 8 }}
       />
    
@@ -88,11 +86,10 @@ function Stats(props) {
       activeDot={{ r: 8 }}
       />
 
-<Tooltip labelFormatter={value => new Date(value).toLocaleDateString("fi-FI")}/>
-    </LineChart>
+     <Tooltip labelFormatter={value => new Date(value).toLocaleDateString("fi-FI")}/>
+     </LineChart>
         </ResponsiveContainer>
         </div>
-        
     );
 } 
 

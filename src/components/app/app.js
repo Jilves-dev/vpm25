@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { useFirestore, useFirestoreCollectionData } from 'reactfire';
+import { useFirestore, useFirestoreCollectionData, useUser } from 'reactfire';
 import 'firebase/firestore';
+import 'firebase/auth';
 import styles from './app.module.scss';
 import Header from '../header';
 import Content from '../content';
@@ -12,24 +13,25 @@ import AddItem from '../../routes/additem';
 import EditItem from '../../routes/edititem';
 import Menu from '../menu';
 import { ButtonAppContainer } from '../../shared/uibuttons';
-import testdata from '../../testdata.js';
+//import testdata from '../../testdata.js';
 
 function App() {
 
   const [data, setData] = useState([]);
   const [typelist, setTypelist] = useState([]);
 
-  const itemCollectionRef = useFirestore().collection('item');
+  const user = useUser();
+
+  const itemCollectionRef = useFirestore().collection('user').doc(user.data.uid).collection('item');
   const { data: itemCollection } = useFirestoreCollectionData(itemCollectionRef.orderBy("pv", "desc"), {initialData: [], idField: "id"}); 
 
-  const typeCollectionRef = useFirestore().collection('type');
+  const typeCollectionRef = useFirestore().collection('user').doc(user.data.uid).collection('type');
   const { data: typeCollection } = useFirestoreCollectionData(typeCollectionRef.orderBy("type"), { initialData: []});
   
-  
-  useEffect(() => {
+  /* useEffect(() => {
     //setData(testdata);
     //setTypelist(["olo on ok", "mahdollinen rytmihäiriö", "olo on heikko"]);
-  },[]);
+  },[]); */
 
   useEffect(() => {
   setData(itemCollection);
@@ -59,7 +61,6 @@ function App() {
     } );
     setData(storeddata);  */
   
-
   const handleItemDelete = (id) => {
     itemCollectionRef.doc(id).delete();
     /* let storeddata = data.slice();
@@ -91,7 +92,6 @@ function App() {
       </Route>
       <Route exact path="/settings">
       <Settings types={typelist} onTypeSubmit={handleTypeSubmit}/>
-    
       </Route>
       <Route exact path="/add">
       <AddItem onItemSubmit={handleItemSubmit} types={typelist}/>

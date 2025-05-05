@@ -1,12 +1,13 @@
+import React from 'react';
 import styles from './itemform.module.scss';
 import Button from '../../shared/uibuttons';
 import useForm from '../../shared/useform';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 function ItemForm(props) {
 
-    const history = useHistory();
+    const history = useNavigate();
 
     const submit = () => {
         let storedvalues = Object.assign({}, values);
@@ -20,13 +21,13 @@ function ItemForm(props) {
     }
 
     const initialState = props.data ? props.data : {
-        pv: "",
-        apip: "",
+        pv: new Date().toISOString().substring(0,10),
+        apip: "aamu",
         klo: "",
         yp: 0,
         ap: 0,
         syke: 0,
-        lisätieto: ""
+        lisätieto: props.types ? props.types[0] : ""
     };
 
     const {values, handleChange, handleSubmit} = useForm(submit, initialState, false);
@@ -50,11 +51,11 @@ function ItemForm(props) {
         <div className={styles.form_row}>
         <div>
             <label htmlFor="pv">pvm </label>
-            <input type="date" name="pv" onChange={handleChange} value={values.pv}/>
+            <input type="date" name="pv" onChange={handleChange} value={values.pv} required/>
         </div>
         <div>
             <label htmlFor="apip">aamu vai ilta? </label>
-            <select name="apip" onChange={handleChange} value={values.apip}>
+            <select name="apip" onChange={handleChange} value={values.apip} required>
                 <option value="aamu">aamu</option>
                 <option value="ilta">ilta</option>
             </select>    
@@ -68,25 +69,25 @@ function ItemForm(props) {
         <div className={styles.form_row}>
         <div>
             <label htmlFor="yp">yläpaine </label>
-            <input type="number" name="yp" step="0.1" onChange={handleChange} value={values.yp}/>
+            <input type="number" name="yp" step="0.1" onChange={handleChange} value={values.yp} required/>
         </div>
         <div>
             <label htmlFor="ap">alapaine </label>
-            <input type="number" name="ap" step="0.1" onChange={handleChange} value={values.ap}/>
+            <input type="number" name="ap" step="0.1" onChange={handleChange} value={values.ap} required/>
         </div>
         </div>
 
         <div className={styles.form_row}>
         <div>
             <label htmlFor="syke">syke </label>
-            <input type="number" name="syke" step="0.1" onChange={handleChange} value={values.syke}/>
+            <input type="number" name="syke" step="0.1" onChange={handleChange} value={values.syke} required/>
         </div>
         </div>
 
         <div className={styles.form_row}>
             <div>
                 <label htmlFor="lisätieto">vointi </label>
-                <select name="lisätieto" onChange={handleChange} value={values.lisätieto}>
+                <select name="lisätieto" onChange={handleChange} value={values.lisätieto} required>
                     { props.types.map( (lisätieto) => <option key={lisätieto} value={lisätieto}>{lisätieto}</option> ) }
                 </select>   
             </div>
