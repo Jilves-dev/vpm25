@@ -4,16 +4,28 @@ import Startup from '../startup';
 import { useSigninCheck } from 'reactfire';
 
 function Appwrapper() {
- const { status, data: signInCheckResult } = useSigninCheck();
+  // Use the useSigninCheck hook from reactfire
+  const { status, data: signInCheckResult } = useSigninCheck();
 
- if (status === 'loading') {
- return <span>Odota, ladataan tietoja...</span>;
- }
+  // Show loading state while checking authentication
+  if (status === 'loading') {
+    return <div style={{ 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center', 
+      height: '100vh',
+      fontSize: '1.2rem'
+    }}>
+      Odota, tarkistetaan kirjautumistilaa...
+    </div>;
+  }
 
- if (signInCheckResult.signedIn === true) {
-     return <App />
- } else {
-     return <Startup />
- }
+  // Show App or Startup based on authentication status
+  if (signInCheckResult && signInCheckResult.signedIn === true) {
+    return <App />;
+  } else {
+    return <Startup />;
+  }
 }
+
 export default Appwrapper;

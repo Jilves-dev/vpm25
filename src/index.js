@@ -4,8 +4,9 @@ import './index.css';
 import Appwrapper from './components/appwrapper';
 import reportWebVitals from './reportWebVitals';
 import { FirebaseAppProvider } from 'reactfire';
-import { SdkProvider } from './sdk'; 
+import { SdkProvider } from './sdk';
 
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBC6iDs1maQ1BvNJjzb_sky7q1EqqaM-fs",
   authDomain: "verenpaine-mitta.firebaseapp.com",
@@ -17,56 +18,18 @@ const firebaseConfig = {
   messagingSenderId: "263488757444"
 };
 
-//const root = document.getElementById('root');
-/* ReactDOM.render(
-  //<React.StrictMode>
-  <FirebaseAppProvider firebaseConfig={config.firebase}> 
-  <AuthCheck fallback={<Startup />}>
-    <App />
-    </AuthCheck>
-    </FirebaseAppProvider>,
-   
-  //  </React.StrictMode>,
-    
-    document.getElementById('root')
-    ); */
-
-    /* 17 ReactDOM.render(
-      //<React.StrictMode>
-           <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-           <Appwrapper />   
-        </FirebaseAppProvider>,
-      //</React.StrictMode>,
-      document.getElementById('root')
-    );
-
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(
-      <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-      <Appwrapper />
-      </FirebaseAppProvider>
-    );
-
-    ReactDOM.render(
-      <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-      <Appwrapper />
-      </FirebaseAppProvider>,
-      document.getElementById('root')
-    );
-
- reportWebVitals();*/
-
- // Hae root-elementti
+// Get root element and create root
 const rootElement = document.getElementById('root');
+const root = ReactDOM.createRoot(rootElement);
 
-// Luo juuri
-ReactDOM.createRoot(rootElement).render(
+// Render the app with the necessary providers
+root.render(
   <React.StrictMode>
-  <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-    <SdkProvider>
-    <Appwrapper />
-    </SdkProvider>
-  </FirebaseAppProvider>
+    <FirebaseAppProvider firebaseConfig={firebaseConfig}>
+      <SdkProvider>
+        <Appwrapper />
+      </SdkProvider>
+    </FirebaseAppProvider>
   </React.StrictMode>
 );
 
