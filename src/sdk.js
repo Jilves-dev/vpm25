@@ -4,11 +4,9 @@ import { getFirestore } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import { 
   AuthProvider, 
-  FirestoreProvider,
-  FirebaseAppProvider
+  FirestoreProvider
 } from 'reactfire';
 
-// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBC6iDs1maQ1BvNJjzb_sky7q1EqqaM-fs",
   authDomain: "verenpaine-mitta.firebaseapp.com",
@@ -20,33 +18,31 @@ const firebaseConfig = {
   messagingSenderId: "263488757444"
 };
 
-// Create a context for our custom SDK
 const SdkContext = createContext(null);
 
 export const SdkProvider = ({ children }) => {
-  // Initialize Firebase app
   const app = initializeApp(firebaseConfig);
-  
-  // Initialize services
   const auth = getAuth(app);
   const firestore = getFirestore(app);
   
-  // Create our SDK object with the Firebase services
   const sdk = {
     app,
     auth,
     firestore
   };
 
-  // Provide the Firebase services through ReactFire's providers
-  return (
-    <SdkContext.Provider value={sdk}>
-      <AuthProvider sdk={auth}>
-        <FirestoreProvider sdk={firestore}>
-          {children}
-        </FirestoreProvider>
-      </AuthProvider>
-    </SdkContext.Provider>
+  return React.createElement(
+    SdkContext.Provider,
+    { value: sdk },
+    React.createElement(
+      AuthProvider,
+      { sdk: auth },
+      React.createElement(
+        FirestoreProvider,
+        { sdk: firestore },
+        children
+      )
+    )
   );
 };
 
