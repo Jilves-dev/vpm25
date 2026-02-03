@@ -16,9 +16,9 @@ function AppWrapper() {
 
   if (signInCheckResult && signInCheckResult.signedIn === true) {
     return <App />;
-  } else {
-    return <Startup />;
   }
+
+  return <Startup />;
 }
 
 export default AppWrapper;

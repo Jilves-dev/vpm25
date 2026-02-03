@@ -7,10 +7,16 @@ function Startup() {
 
   const signIn = async () => {
     const provider = new GoogleAuthProvider();
+    // Pakotta Google näyttämään tili-valintalista AINA
+    provider.setCustomParameters({
+      prompt: 'select_account'
+    });
     try {
       await signInWithPopup(auth, provider);
     } catch (error) {
-      console.error("Authentication error:", error);
+      if (error.code !== 'auth/popup-closed-by-user') {
+        console.error("Authentication error:", error);
+      }
     }
   };
 

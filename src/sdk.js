@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { initializeApp } from 'firebase/app';
+import { initializeApp, getApps } from 'firebase/app';
 import { 
   AuthProvider, 
   FirestoreProvider
@@ -20,16 +20,13 @@ const firebaseConfig = {
 
 const SdkContext = createContext(null);
 
+// Alusta Firebase YKSITTÄIN (ei monistane StrictMode:ssa)
+const app = getApps().length > 0 ? getApps()[0] : initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const firestore = getFirestore(app);
+
 export const SdkProvider = ({ children }) => {
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const firestore = getFirestore(app);
-  
-  const sdk = {
-    app,
-    auth,
-    firestore
-  };
+  const sdk = { app, auth, firestore };
 
   return React.createElement(
     SdkContext.Provider,
