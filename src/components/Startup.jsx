@@ -15,7 +15,7 @@ function Startup() {
   };
 
   return (
-    <div className="bg-[#EBE9E1] flex flex-col justify-center items-center h-screen">
+    <div className="flex flex-col justify-center items-center h-screen">
       <div className="m-4 text-center">
         Tervetuloa käyttämään <br />
         verenpaineen mittaus päiväkirja. <br />

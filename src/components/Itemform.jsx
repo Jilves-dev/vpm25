@@ -145,7 +145,7 @@ function ItemForm({ data, types, onItemSubmit, onItemDelete }) {
           <div className="flex-1 mx-1">
             <Button onClick={handleCancel}>PERUUTA</Button>
           </div>
-          <div className="flex-1 mx-1">
+          <div className="flex-1 mx-1 flex justify-end">
             <Button primary type="submit">
               {data ? "TALLENNA" : "LISÄÄ"}
             </Button>
