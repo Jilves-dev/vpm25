@@ -104,7 +104,7 @@ function Stats({ data }) {
   ];
 
   return (
-    <div className="p-8">
+    <div className="px-3 py-5">
       <h2 className="text-2xl font-bold mb-4">Tilastot</h2>
 
       {/* Aikajakson valinta */}
@@ -200,7 +200,7 @@ function Stats({ data }) {
               margin={{
                 top: 20,
                 right: 20,
-                left: 20,
+                left: -10,
                 bottom: 10
               }}
             >

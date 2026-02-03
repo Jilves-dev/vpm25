@@ -8,7 +8,7 @@ function EditItem({ data, types, lifestyles, onItemSubmit, onItemDelete }) {
 
   if (!item) {
     return (
-      <div className="p-8">
+      <div className="px-4 py-6">
         <h2 className="text-2xl font-bold mb-4">Tietoja ei löydy</h2>
         <p>Valitettavasti mittaustulosta id:llä {id} ei löydy.</p>
       </div>
@@ -16,7 +16,7 @@ function EditItem({ data, types, lifestyles, onItemSubmit, onItemDelete }) {
   }
 
   return (
-    <div className="p-8">
+    <div className="px-4 py-6">
       <h2 className="text-2xl font-bold mb-4">Mittaustuloksen muokkaaminen</h2>
       <ItemForm
         onItemSubmit={onItemSubmit}

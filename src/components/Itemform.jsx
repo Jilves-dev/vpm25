@@ -56,108 +56,108 @@ function ItemForm({ data, types, lifestyles, onItemSubmit, onItemDelete }) {
   return (
     <div>
       <form onSubmit={handleSubmit} className="flex flex-col">
-        {/* Päivä + aamu/ilta + klo */}
-        <div className="flex gap-2 mb-2">
-          <div className="flex flex-col flex-1 mx-1">
-            <label htmlFor="pv" className="text-xs mb-2">pvm</label>
-            <input type="date" name="pv" onChange={handleChange} value={values.pv} required
-              className="p-2 border border-gray-400 rounded text-lg outline-none" />
-          </div>
-          <div className="flex flex-col flex-1 mx-1">
-            <label htmlFor="apip" className="text-xs mb-2">aamu vai ilta?</label>
-            <select name="apip" onChange={handleChange} value={values.apip} required
-              className="p-2 border border-gray-400 rounded text-lg outline-none">
-              <option value="aamu">aamu</option>
-              <option value="ilta">ilta</option>
-            </select>
-          </div>
-          <div className="flex flex-col flex-1 mx-1">
-            <label htmlFor="klo" className="text-xs mb-2">klo</label>
-            <input type="time" name="klo" onChange={handleChange} value={values.klo}
-              className="p-2 border border-gray-400 rounded text-lg outline-none" />
-          </div>
+       {/* Päivä + aamu/ilta + klo — GRID: mobile 2 saraketta, pvm koko leveys */}
+      <div className="grid grid-cols-2 gap-2 mb-2">
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label htmlFor="pv" className="text-xs mb-1">pvm</label>
+          <input type="date" name="pv" onChange={handleChange} value={values.pv} required
+            className="p-2 border border-gray-400 rounded text-lg outline-none w-full" />
         </div>
-
-        {/* Yläpaine + Alapaine */}
-        <div className="flex gap-2 mb-2">
-          <div className="flex flex-col flex-1 mx-1">
-            <label htmlFor="yp" className="text-xs mb-2">yläpaine</label>
-            <input type="number" name="yp" step="0.1" onChange={handleChange} value={values.yp} required
-              className="p-2 border border-gray-400 rounded text-lg outline-none" />
-          </div>
-          <div className="flex flex-col flex-1 mx-1">
-            <label htmlFor="ap" className="text-xs mb-2">alapaine</label>
-            <input type="number" name="ap" step="0.1" onChange={handleChange} value={values.ap} required
-              className="p-2 border border-gray-400 rounded text-lg outline-none" />
-          </div>
+        <div className="flex flex-col">
+          <label htmlFor="apip" className="text-xs mb-1">aamu vai ilta?</label>
+          <select name="apip" onChange={handleChange} value={values.apip} required
+            className="p-2 border border-gray-400 rounded text-lg outline-none w-full">
+            <option value="aamu">aamu</option>
+            <option value="ilta">ilta</option>
+          </select>
         </div>
-
-        {/* Syke */}
-        <div className="flex gap-2 mb-2">
-          <div className="flex flex-col flex-1 mx-1">
-            <label htmlFor="syke" className="text-xs mb-2">syke</label>
-            <input type="number" name="syke" step="0.1" onChange={handleChange} value={values.syke} required
-              className="p-2 border border-gray-400 rounded text-lg outline-none" />
-          </div>
+        <div className="flex flex-col">
+          <label htmlFor="klo" className="text-xs mb-1">klo</label>
+          <input type="time" name="klo" onChange={handleChange} value={values.klo}
+            className="p-2 border border-gray-400 rounded text-lg outline-none w-full" />
         </div>
+      </div>
 
-        {/* Vointi */}
-        <div className="flex gap-2 mb-2">
-          <div className="flex flex-col flex-1 mx-1">
-            <label htmlFor="lisätieto" className="text-xs mb-2">vointi</label>
-            <select name="lisätieto" onChange={handleChange} value={values.lisätieto} required
-              className="p-2 border border-gray-400 rounded text-lg outline-none">
-              {types && types.map((lisätieto) => (
-                <option key={lisätieto} value={lisätieto}>{lisätieto}</option>
-              ))}
-            </select>
-          </div>
+      {/* Yläpaine + Alapaine */}
+      <div className="flex gap-2 mb-2">
+        <div className="flex flex-col flex-1">
+          <label htmlFor="yp" className="text-xs mb-1">yläpaine</label>
+          <input type="number" name="yp" step="0.1" onChange={handleChange} value={values.yp} required
+            className="p-2 border border-gray-400 rounded text-lg outline-none" />
         </div>
+        <div className="flex flex-col flex-1">
+          <label htmlFor="ap" className="text-xs mb-1">alapaine</label>
+          <input type="number" name="ap" step="0.1" onChange={handleChange} value={values.ap} required
+            className="p-2 border border-gray-400 rounded text-lg outline-none" />
+        </div>
+      </div>
 
-        {/* LIFESTYLE CHECKBOXES */}
-        <div className="mx-1 mb-4">
-          <label className="text-xs mb-2 block">elämäntapa</label>
-          <div className="flex flex-wrap gap-2">
-            {lifestyles && lifestyles.map((lifestyle) => (
-              <label
-                key={lifestyle}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full border cursor-pointer text-sm transition-colors ${
-                  values.lifestyle.includes(lifestyle)
-                    ? 'bg-blue-500 text-white border-blue-500'
-                    : 'bg-white text-gray-700 border-gray-300 hover:border-blue-300'
-                }`}
-              >
-                <input
-                  type="checkbox"
-                  checked={values.lifestyle.includes(lifestyle)}
-                  onChange={() => handleLifestyleChange(lifestyle)}
-                  className="hidden"
-                />
-                {values.lifestyle.includes(lifestyle) ? '✓' : '+'} {lifestyle}
-              </label>
+      {/* Syke */}
+      <div className="mb-2">
+        <div className="flex flex-col">
+          <label htmlFor="syke" className="text-xs mb-1">syke</label>
+          <input type="number" name="syke" step="0.1" onChange={handleChange} value={values.syke} required
+            className="p-2 border border-gray-400 rounded text-lg outline-none" />
+        </div>
+      </div>
+
+      {/* Vointi */}
+      <div className="mb-2">
+        <div className="flex flex-col">
+          <label htmlFor="lisätieto" className="text-xs mb-1">vointi</label>
+          <select name="lisätieto" onChange={handleChange} value={values.lisätieto} required
+            className="p-2 border border-gray-400 rounded text-lg outline-none">
+            {types && types.map((lisätieto) => (
+              <option key={lisätieto} value={lisätieto}>{lisätieto}</option>
             ))}
-          </div>
+          </select>
         </div>
+      </div>
 
-        {/* Napit */}
-        <div className="flex gap-2 mb-2">
-          <div className="flex-1 mx-1">
-            <Button onClick={handleCancel}>PERUUTA</Button>
-          </div>
-          <div className="flex-1 mx-1">
-            <Button primary type="submit">{data ? "TALLENNA" : "LISÄÄ"}</Button>
-          </div>
+      {/* LIFESTYLE CHECKBOXES — ei muutosta */}
+      <div className="mb-4">
+        <label className="text-xs mb-2 block">elämäntapa</label>
+        <div className="flex flex-wrap gap-2">
+          {lifestyles && lifestyles.map((lifestyle) => (
+            <label
+              key={lifestyle}
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-full border cursor-pointer text-sm transition-colors ${
+                values.lifestyle.includes(lifestyle)
+                  ? 'bg-blue-500 text-white border-blue-500'
+                  : 'bg-white text-gray-700 border-gray-300 hover:border-blue-300'
+              }`}
+            >
+              <input
+                type="checkbox"
+                checked={values.lifestyle.includes(lifestyle)}
+                onChange={() => handleLifestyleChange(lifestyle)}
+                className="hidden"
+              />
+              {values.lifestyle.includes(lifestyle) ? '✓' : '+'} {lifestyle}
+            </label>
+          ))}
         </div>
+      </div>
 
-        {onItemDelete && (
-          <div className="flex gap-2">
-            <div className="flex-1 mx-1">
-              <Button onClick={handleDelete}>POISTA</Button>
-            </div>
-            <div className="flex-1 mx-1"></div>
+      {/* Napit */}
+      <div className="flex gap-2 mb-2">
+        <div className="flex-1">
+          <Button onClick={handleCancel}>PERUUTA</Button>
+        </div>
+        <div className="flex-1">
+          <Button primary type="submit">{data ? "TALLENNA" : "LISÄÄ"}</Button>
+        </div>
+      </div>
+
+      {onItemDelete && (
+        <div className="flex gap-2">
+          <div className="flex-1">
+            <Button onClick={handleDelete}>POISTA</Button>
           </div>
-        )}
-      </form>
+          <div className="flex-1"></div>
+        </div>
+      )}
+    </form>
     </div>
   );
 }
