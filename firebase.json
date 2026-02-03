@@ -12,7 +12,7 @@
     ],
     "headers": [
       {
-        "match": "/**",
+        "source": "/**",
         "headers": [
           {
             "key": "Cross-Origin-Opener-Policy",
