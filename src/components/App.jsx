@@ -13,15 +13,19 @@ import EditItem from '../routes/EditItem';
 import Menu from './Menu';
 import { ButtonAppContainer, FloatingButton } from '../shared/Button';
 
-// Apukomponentti joka näyttää napin vain etusivulla
+// Default lifestyle kategoriat (näytetään jos käyttäjällä ei ole omia)
+export const DEFAULT_LIFESTYLES = [
+  'Suolan vähentäminen',
+  'Liikunta',
+  'Hyvä uni',
+  'Vähä alkoholia',
+  'Stressinhallinta',
+  'Terveellinen ruokavalio'
+];
+
 function FloatingAddButton() {
   const location = useLocation();
-  
-  // Näytä nappi vain etusivulla
-  if (location.pathname !== '/') {
-    return null;
-  }
-  
+  if (location.pathname !== '/') return null;
   return (
     <Link to="/add">
       <FloatingButton secondary>+</FloatingButton>
@@ -32,43 +36,51 @@ function FloatingAddButton() {
 function App() {
   const [data, setData] = useState([]);
   const [typelist, setTypelist] = useState([]);
+  const [lifestyles, setLifestyles] = useState(DEFAULT_LIFESTYLES);
 
   const { status: userStatus, data: user } = useUser();
   const { firestore } = useSdk();
 
   const itemCollectionRef = user?.uid ? collection(firestore, 'user', user.uid, 'item') : null;
   const itemQuery = itemCollectionRef ? query(itemCollectionRef, orderBy('pv', 'desc')) : null;
-  
+
   const { status: itemStatus, data: itemCollection } = useFirestoreCollectionData(
-    itemQuery || collection(firestore, '_placeholder'), 
-    {
-      idField: 'id',
-      initialData: []
-    }
+    itemQuery || collection(firestore, '_placeholder'),
+    { idField: 'id', initialData: [] }
   );
 
   const typeCollectionRef = user?.uid ? collection(firestore, 'user', user.uid, 'type') : null;
   const typeQuery = typeCollectionRef ? query(typeCollectionRef, orderBy('type')) : null;
-  
+
   const { status: typeStatus, data: typeCollection } = useFirestoreCollectionData(
     typeQuery || collection(firestore, '_placeholder'),
-    {
-      initialData: []
-    }
+    { initialData: [] }
+  );
+
+  // Lifestyle collection
+  const lifestyleCollectionRef = user?.uid ? collection(firestore, 'user', user.uid, 'lifestyle') : null;
+  const lifestyleQuery = lifestyleCollectionRef ? query(lifestyleCollectionRef, orderBy('name')) : null;
+
+  const { status: lifestyleStatus, data: lifestyleCollection } = useFirestoreCollectionData(
+    lifestyleQuery || collection(firestore, '_placeholder'),
+    { initialData: [] }
   );
 
   useEffect(() => {
-    if (itemCollection) {
-      setData(itemCollection);
-    }
+    if (itemCollection) setData(itemCollection);
   }, [itemCollection]);
 
   useEffect(() => {
     if (typeCollection) {
-      const types = typeCollection.map(obj => obj.type);
-      setTypelist(types);
+      setTypelist(typeCollection.map(obj => obj.type));
     }
   }, [typeCollection]);
+
+  useEffect(() => {
+    if (lifestyleCollection && lifestyleCollection.length > 0) {
+      setLifestyles(lifestyleCollection.map(obj => obj.name));
+    }
+  }, [lifestyleCollection]);
 
   const handleItemSubmit = (newitem) => {
     if (itemCollectionRef) {
@@ -84,12 +96,27 @@ function App() {
 
   const handleTypeSubmit = (newtype) => {
     if (typeCollectionRef) {
-      const newTypeRef = doc(typeCollectionRef);
-      setDoc(newTypeRef, { type: newtype });
+      setDoc(doc(typeCollectionRef), { type: newtype });
     }
   };
 
-  if (userStatus === 'loading' || itemStatus === 'loading' || typeStatus === 'loading') {
+  const handleLifestyleSubmit = (newlifestyle) => {
+    if (lifestyleCollectionRef) {
+      setDoc(doc(lifestyleCollectionRef), { name: newlifestyle });
+    }
+  };
+
+  const handleLifestyleDelete = (name) => {
+    if (lifestyleCollectionRef) {
+      // Etsi ja poista dokumentti nimestä
+      const item = lifestyleCollection.find(obj => obj.name === name);
+      if (item && item.id) {
+        deleteDoc(doc(lifestyleCollectionRef, item.id));
+      }
+    }
+  };
+
+  if (userStatus === 'loading' || itemStatus === 'loading' || typeStatus === 'loading' || lifestyleStatus === 'loading') {
     return <div className="flex justify-center items-center h-screen">Ladataan tietoja...</div>;
   }
 
@@ -106,15 +133,28 @@ function App() {
             <Routes>
               <Route exact path="/" element={<Items data={data} />} />
               <Route path="/stats" element={<Stats data={data} />} />
-              <Route path="/settings" element={<Settings types={typelist} onTypeSubmit={handleTypeSubmit} />} />
-              <Route path="/add" element={<AddItem onItemSubmit={handleItemSubmit} types={typelist} />} />
-              <Route path="/edit/:id" element={<EditItem onItemSubmit={handleItemSubmit} data={data} types={typelist} onItemDelete={handleItemDelete} />} />
+              <Route path="/settings" element={
+                <Settings
+                  types={typelist}
+                  onTypeSubmit={handleTypeSubmit}
+                  lifestyles={lifestyles}
+                  onLifestyleSubmit={handleLifestyleSubmit}
+                  onLifestyleDelete={handleLifestyleDelete}
+                />
+              } />
+              <Route path="/add" element={<AddItem onItemSubmit={handleItemSubmit} types={typelist} lifestyles={lifestyles} />} />
+              <Route path="/edit/:id" element={
+                <EditItem
+                  onItemSubmit={handleItemSubmit}
+                  data={data}
+                  types={typelist}
+                  lifestyles={lifestyles}
+                  onItemDelete={handleItemDelete}
+                />
+              } />
             </Routes>
           </Content>
-          
-          {/* Nappi näkyy vain etusivulla */}
           <FloatingAddButton />
-          
           <Menu />
         </div>
       </Router>

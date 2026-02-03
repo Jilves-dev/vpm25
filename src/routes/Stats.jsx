@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Line, LineChart, XAxis, YAxis, ResponsiveContainer, CartesianGrid, Legend, Tooltip } from 'recharts';
+import { Line, LineChart, XAxis, YAxis, ResponsiveContainer, CartesianGrid, Legend, Tooltip, ReferenceLine } from 'recharts';
 
 function Stats({ data }) {
   const [timeRange, setTimeRange] = useState('all');
@@ -205,33 +205,36 @@ function Stats({ data }) {
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
+             <XAxis
                 type="number"
                 dataKey="date"
                 domain={["dataMin", "dataMax"]}
                 scale="time"
+                interval="preserveStartEnd"
+                tickCount={6}
                 tickFormatter={timeStr => new Date(timeStr).toLocaleDateString("fi-FI")}
               />
               <Legend />
               <YAxis />
 
-              {/* Viitearvon viivat */}
-              <Line
-                type="linear"
-                dataKey={() => 130}
-                stroke="#999"
-                strokeDasharray="5 5"
-                dot={false}
-                name="Viitearvo (systolinen)"
-              />
-              <Line
-                type="linear"
-                dataKey={() => 85}
-                stroke="#666"
-                strokeDasharray="5 5"
-                dot={false}
-                name="Viitearvo (diastolinen)"
-              />
+            {/* Viitearvon viivat */}
+             <ReferenceLine 
+                y={130} stroke="#999" 
+                strokeDasharray="5 5" 
+                label={{ value: "Sys. viite 130", 
+                position: "insideTopRight", 
+                fontSize: 10, 
+                fill: "#999" }} 
+                />
+
+              <ReferenceLine 
+                y={85} stroke="#666" 
+                strokeDasharray="5 5" 
+                label={{ value: "Dias. viite 85", 
+                  position: "insideTopLeft", 
+                  fontSize: 10, 
+                  fill: "#666" }} 
+                />
 
               <Line
                 type="linear"
@@ -260,9 +263,97 @@ function Stats({ data }) {
               <Tooltip labelFormatter={value => new Date(value).toLocaleDateString("fi-FI")} />
             </LineChart>
           </ResponsiveContainer>
+
+          {/* LIFESTYLE KORRELAATIO */}
+          <div className="mt-8">
+            <h3 className="text-xl font-bold mb-4">Elämäntapa & verenpaine</h3>
+
+            {(() => {
+              const allLifestyles = [...new Set(filteredData.flatMap(item => item.lifestyle || []))];
+
+              if (allLifestyles.length === 0) {
+                return (
+                  <div className="text-center py-4 text-gray-500 text-sm">
+                    Ei elämäntapamerkintejä. Lisää merkintejä mittaustuloksiin nähdäksesi korrelaation.
+                  </div>
+                );
+              }
+
+              const lifestyleStats = allLifestyles.map(lifestyle => {
+                const withLifestyle = filteredData.filter(item => (item.lifestyle || []).includes(lifestyle));
+                const withoutLifestyle = filteredData.filter(item => !(item.lifestyle || []).includes(lifestyle));
+
+                const avgYpWith = withLifestyle.length > 0
+                  ? (withLifestyle.reduce((sum, item) => sum + item.yp, 0) / withLifestyle.length).toFixed(1)
+                  : null;
+                const avgYpWithout = withoutLifestyle.length > 0
+                  ? (withoutLifestyle.reduce((sum, item) => sum + item.yp, 0) / withoutLifestyle.length).toFixed(1)
+                  : null;
+                const avgApWith = withLifestyle.length > 0
+                  ? (withLifestyle.reduce((sum, item) => sum + item.ap, 0) / withLifestyle.length).toFixed(1)
+                  : null;
+                // KORJATTU: withOutLifestyle → withoutLifestyle
+                const avgApWithout = withoutLifestyle.length > 0
+                  ? (withoutLifestyle.reduce((sum, item) => sum + item.ap, 0) / withoutLifestyle.length).toFixed(1)
+                  : null;
+
+                const ypDiff = avgYpWith && avgYpWithout
+                  ? (((avgYpWith - avgYpWithout) / avgYpWithout) * 100).toFixed(1)
+                  : null;
+                const apDiff = avgApWith && avgApWithout
+                  ? (((avgApWith - avgApWithout) / avgApWithout) * 100).toFixed(1)
+                  : null;
+
+                return {
+                  name: lifestyle,
+                  count: withLifestyle.length,
+                  avgYpWith,
+                  avgApWith,
+                  ypDiff,
+                  apDiff
+                };
+              });
+
+              return (
+                <div className="space-y-3">
+                  {lifestyleStats.map(stat => (
+                    <div key={stat.name} className="border border-gray-200 rounded-lg p-3 bg-gray-50">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="font-semibold text-sm">{stat.name}</span>
+                        <span className="text-xs text-gray-500">{stat.count} merkintää</span>
+                      </div>
+                      {stat.ypDiff !== null ? (
+                        <div className="text-sm space-y-0.5">
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Systolinen:</span>
+                            <span className={`font-semibold ${parseFloat(stat.ypDiff) < 0 ? 'text-green-600' : 'text-red-600'}`}>
+                              {parseFloat(stat.ypDiff) < 0 ? '' : '+'}{stat.ypDiff}%
+                              <span className="text-gray-400 font-normal ml-1">({stat.avgYpWith} mmHg)</span>
+                            </span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-gray-600">Diastolinen:</span>
+                            <span className={`font-semibold ${parseFloat(stat.apDiff) < 0 ? 'text-green-600' : 'text-red-600'}`}>
+                              {parseFloat(stat.apDiff) < 0 ? '' : '+'}{stat.apDiff}%
+                              <span className="text-gray-400 font-normal ml-1">({stat.avgApWith} mmHg)</span>
+                            </span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-xs text-gray-400">
+                          Tarvitsee merkintejä myös ilman tätä faktora vertailun vuoksi.
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
+          </div>
         </>
       )}
     </div>
+    
   );
 }
 

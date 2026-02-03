@@ -1,7 +1,7 @@
 import ItemForm from '../components/ItemForm';
 import { useParams } from 'react-router-dom';
 
-function EditItem({ data, types, onItemSubmit, onItemDelete }) {
+function EditItem({ data, types, lifestyles, onItemSubmit, onItemDelete }) {
   const { id } = useParams();
   const index = data.findIndex(item => item.id === id);
   let item = index >= 0 ? data[index] : null;
@@ -22,6 +22,7 @@ function EditItem({ data, types, onItemSubmit, onItemDelete }) {
         onItemSubmit={onItemSubmit}
         data={item}
         types={types}
+        lifestyles={lifestyles}
         onItemDelete={onItemDelete}
       />
     </div>
