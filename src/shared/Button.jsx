@@ -5,7 +5,7 @@ const Button = ({ className = "", primary, secondary, ...props }) => {
     <button
       type="button"
       className={classNames([
-        "bg-gray-300 text-black border-none outline-none py-3 px-4 mx-2 my-2 rounded shadow-md font-bold opacity-80 flex flex-col justify-center items-center",
+        "bg-red-600 text-black border-none outline-none py-3 px-4 mx-2 my-2 rounded shadow-md font-bold opacity-80 flex flex-col justify-center items-center",
         "active:shadow-lg hover:opacity-100 disabled:bg-gray-300 disabled:text-gray-400 disabled:shadow-none",
         className,
         primary ? "bg-blue-500 text-white active:bg-blue-400" : "",

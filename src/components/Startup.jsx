@@ -1,5 +1,5 @@
 import Button from '../shared/Button';
-import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useSdk } from '../sdk';
 
 function Startup() {
@@ -8,14 +8,14 @@ function Startup() {
   const signIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithRedirect(auth, provider);
+      await signInWithPopup(auth, provider);
     } catch (error) {
       console.error("Authentication error:", error);
     }
   };
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
+    <div className="bg-[#EBE9E1] flex flex-col justify-center items-center h-screen">
       <div className="m-4 text-center">
         Tervetuloa käyttämään <br />
         verenpaineen mittaus päiväkirja. <br />

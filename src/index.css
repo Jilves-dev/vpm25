@@ -1,4 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+
+.instrument-serif-regular {
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.instrument-serif-regular-italic {
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
 
 @tailwind base;
 @tailwind components;
@@ -22,3 +36,12 @@
 ::-webkit-scrollbar-thumb {
   background: #e1e1e1;
 }
+
+/* 
+#E43D12 pun
+#D6536D violet
+#FFA2B6 pink
+#EFB11D okra
+#EBE9E1 gray
+
+*/
