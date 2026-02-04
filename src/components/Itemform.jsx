@@ -78,17 +78,17 @@ function ItemForm({ data, types, lifestyles, onItemSubmit, onItemDelete }) {
         </div>
       </div>
 
-      {/* Yläpaine + Alapaine */}
-      <div className="flex gap-2 mb-2">
-        <div className="flex flex-col flex-1">
+     {/* Yläpaine + Alapaine — GRID kuten pvm-rivillä */}
+      <div className="grid grid-cols-2 gap-2 mb-2">
+        <div className="flex flex-col">
           <label htmlFor="yp" className="text-xs mb-1">yläpaine</label>
-          <input type="number" name="yp" step="0.1" onChange={handleChange} value={values.yp} required
-            className="p-2 border border-gray-400 rounded text-lg outline-none" />
+          <input type="number" name="yp" step="1" min="0" max="300" onChange={handleChange} value={values.yp} required
+            className="p-2 border border-gray-400 rounded text-base outline-none w-full" />
         </div>
-        <div className="flex flex-col flex-1">
+        <div className="flex flex-col">
           <label htmlFor="ap" className="text-xs mb-1">alapaine</label>
-          <input type="number" name="ap" step="0.1" onChange={handleChange} value={values.ap} required
-            className="p-2 border border-gray-400 rounded text-lg outline-none" />
+          <input type="number" name="ap" step="1" min="0" max="200" onChange={handleChange} value={values.ap} required
+            className="p-2 border border-gray-400 rounded text-base outline-none w-full" />
         </div>
       </div>
 
@@ -96,8 +96,8 @@ function ItemForm({ data, types, lifestyles, onItemSubmit, onItemDelete }) {
       <div className="mb-2">
         <div className="flex flex-col">
           <label htmlFor="syke" className="text-xs mb-1">syke</label>
-          <input type="number" name="syke" step="0.1" onChange={handleChange} value={values.syke} required
-            className="p-2 border border-gray-400 rounded text-lg outline-none" />
+          <input type="number" name="syke" step="1" min="0" max="250" onChange={handleChange} value={values.syke} required
+            className="p-2 border border-gray-400 rounded text-base outline-none" />
         </div>
       </div>
 

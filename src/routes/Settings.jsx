@@ -10,11 +10,11 @@ function Settings({ types, onTypeSubmit, lifestyles, onLifestyleSubmit, onLifest
   const navigate = useNavigate();
 
   if (userStatus === 'loading') {
-    return <div className="p-8">Ladataan käyttäjän tietoja...</div>;
+    return <div className="px-4 py-6">Ladataan käyttäjän tietoja...</div>;
   }
 
   if (!user) {
-    return <div className="p-8">Käyttäjää ei löydy. Ole hyvä ja kirjaudu sisään uudelleen.</div>;
+    return <div className="px-4 py-6">Käyttäjää ei löydy. Ole hyvä ja kirjaudu sisään uudelleen.</div>;
   }
 
   const handleSignOut = async () => {
@@ -46,21 +46,25 @@ function Settings({ types, onTypeSubmit, lifestyles, onLifestyleSubmit, onLifest
   };
 
   return (
-    <div className="p-8">
+    <div className="px-4 py-6">
       <h2 className="text-2xl font-bold mb-4">Asetukset</h2>
 
       {/* Profiili */}
       <h3 className="text-xl font-semibold mt-2 mb-2">Profiili</h3>
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+        <div className="flex items-center gap-3">
           {user.photoURL && (
-            <img src={user.photoURL} alt="" className="w-20 h-20 rounded-full m-4" />
+            <img src={user.photoURL} alt="" className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex-shrink-0" />
           )}
-          <div>
-            {user.displayName}<br />{user.email}
+          <div className="text-sm sm:text-base min-w-0">
+            <div className="font-semibold truncate">{user.displayName}</div>
+            <div className="text-gray-600 truncate">{user.email}</div>
           </div>
         </div>
-        <Button primary onClick={handleSignOut}>Kirjaudu ulos</Button>
+        {/* Kirjaudu ulos nappi - näkyy vain DESKTOPILLA */}
+        <Button primary onClick={handleSignOut} className="hidden sm:block">
+          Kirjaudu ulos
+        </Button>
       </div>
 
       {/* Vointi tyypit */}
@@ -108,6 +112,13 @@ function Settings({ types, onTypeSubmit, lifestyles, onLifestyleSubmit, onLifest
             <Button type="submit" primary>Lisää</Button>
           </div>
         </form>
+      </div>
+
+      {/* Kirjaudu ulos nappi - MOBILELLE SIVUN ALIMPANA */}
+      <div className="sm:hidden mt-6">
+        <Button primary onClick={handleSignOut} className="w-full">
+          Kirjaudu ulos
+        </Button>
       </div>
     </div>
   );
