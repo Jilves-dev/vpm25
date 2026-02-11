@@ -1,9 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import Appwrapper from './components/Appwrapper'
-import { FirebaseAppProvider } from 'reactfire'
-import { SdkProvider } from './sdk'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import Appwrapper from './components/Appwrapper';
+import { FirebaseAppProvider } from 'reactfire';
+import { SdkProvider } from './sdk';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -13,8 +13,8 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
   storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID
-}
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+};
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -23,5 +23,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Appwrapper />
       </SdkProvider>
     </FirebaseAppProvider>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);

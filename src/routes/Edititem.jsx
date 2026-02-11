@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 
 function EditItem({ data, types, lifestyles, onItemSubmit, onItemDelete }) {
   const { id } = useParams();
-  const index = data.findIndex(item => item.id === id);
+  const index = data.findIndex((item) => item.id === id);
   let item = index >= 0 ? data[index] : null;
 
   if (!item) {

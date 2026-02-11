@@ -14,7 +14,7 @@ const useForm = (callback, initialState = {}, resetOnSubmit = true) => {
   const handleChange = (event) => {
     event.persist();
     let value = event.target.value;
-    setValues(values => ({ ...values, [event.target.name]: value }));
+    setValues((values) => ({ ...values, [event.target.name]: value }));
   };
 
   const resetValues = () => {
@@ -26,7 +26,7 @@ const useForm = (callback, initialState = {}, resetOnSubmit = true) => {
     handleChange,
     resetValues,
     setValues,
-    values
+    values,
   };
 };
 

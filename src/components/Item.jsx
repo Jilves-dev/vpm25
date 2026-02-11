@@ -1,13 +1,13 @@
-import { MdNavigateNext } from "react-icons/md";
+import { MdNavigateNext } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 // Lifestyle tagejen värit
 const LIFESTYLE_COLORS = {
   'Suolan vähentäminen': 'bg-orange-100 text-orange-700',
-  'Liikunta': 'bg-green-100 text-green-700',
+  Liikunta: 'bg-green-100 text-green-700',
   'Hyvä uni': 'bg-purple-100 text-purple-700',
   'Vähä alkoholia': 'bg-blue-100 text-blue-700',
-  'Stressinhallinta': 'bg-pink-100 text-pink-700',
+  Stressinhallinta: 'bg-pink-100 text-pink-700',
   'Terveellinen ruokavalio': 'bg-yellow-100 text-yellow-700',
 };
 

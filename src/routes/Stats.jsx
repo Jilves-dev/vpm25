@@ -1,5 +1,15 @@
 import { useState, useMemo } from 'react';
-import { Line, LineChart, XAxis, YAxis, ResponsiveContainer, CartesianGrid, Legend, Tooltip, ReferenceLine } from 'recharts';
+import {
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  CartesianGrid,
+  Legend,
+  Tooltip,
+  ReferenceLine,
+} from 'recharts';
 
 function Stats({ data }) {
   const [timeRange, setTimeRange] = useState('all');
@@ -7,7 +17,7 @@ function Stats({ data }) {
   // Viitearvot
   const REFERENCE = {
     systolic: 130,
-    diastolic: 85
+    diastolic: 85,
   };
 
   // Suodata data valitun aikajakson mukaan
@@ -34,7 +44,7 @@ function Stats({ data }) {
         return data;
     }
 
-    return data.filter(item => new Date(item.pv) >= cutoffDate);
+    return data.filter((item) => new Date(item.pv) >= cutoffDate);
   }, [data, timeRange]);
 
   // Laske keskiarvot ja vertailu
@@ -52,8 +62,14 @@ function Stats({ data }) {
     const avgSyke = sumSyke / filteredData.length;
 
     // Laske prosentuaaliset erot viitearvoista
-    const systolicDiff = ((avgYp - REFERENCE.systolic) / REFERENCE.systolic * 100).toFixed(1);
-    const diastolicDiff = ((avgAp - REFERENCE.diastolic) / REFERENCE.diastolic * 100).toFixed(1);
+    const systolicDiff = (
+      ((avgYp - REFERENCE.systolic) / REFERENCE.systolic) *
+      100
+    ).toFixed(1);
+    const diastolicDiff = (
+      ((avgAp - REFERENCE.diastolic) / REFERENCE.diastolic) *
+      100
+    ).toFixed(1);
 
     // Määritä tila
     const isNormal = avgYp < 130 && avgAp < 85;
@@ -81,17 +97,17 @@ function Stats({ data }) {
       diastolicDiff: parseFloat(diastolicDiff),
       status,
       statusColor,
-      isNormal
+      isNormal,
     };
   }, [filteredData]);
 
   // Muuta data graafille sopivaan muotoon
   const linedata = useMemo(() => {
-    return filteredData.map(item => ({
+    return filteredData.map((item) => ({
       date: new Date(item.pv).getTime(),
       Systolinen: item.yp,
       Diastolinen: item.ap,
-      Syke: item.syke
+      Syke: item.syke,
     }));
   }, [filteredData]);
 
@@ -100,7 +116,7 @@ function Stats({ data }) {
     { value: '3m', label: '3kk' },
     { value: '6m', label: '6kk' },
     { value: '1y', label: '1v' },
-    { value: 'all', label: 'Kaikki' }
+    { value: 'all', label: 'Kaikki' },
   ];
 
   return (
@@ -109,7 +125,7 @@ function Stats({ data }) {
 
       {/* Aikajakson valinta */}
       <div className="flex flex-wrap gap-2 mb-6">
-        {timeRangeButtons.map(btn => (
+        {timeRangeButtons.map((btn) => (
           <button
             key={btn.value}
             onClick={() => setTimeRange(btn.value)}
@@ -136,28 +152,46 @@ function Stats({ data }) {
       ) : (
         <>
           {/* Status-kortti */}
-          <div className={`mb-6 p-4 rounded-lg border-2 ${analysis.statusColor}`}>
+          <div
+            className={`mb-6 p-4 rounded-lg border-2 ${analysis.statusColor}`}
+          >
             <div className="flex justify-between items-center mb-3">
               <h3 className="text-lg font-bold">Verenpaineesi tila:</h3>
               <span className="text-2xl font-bold">{analysis.status}</span>
             </div>
-            
+
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span>Systolinen keskiarvo:</span>
                 <span className="font-semibold">
-                  {analysis.avgYp} mmHg 
-                  <span className={analysis.systolicDiff > 0 ? 'text-red-600' : 'text-green-600'}>
-                    {' '}({analysis.systolicDiff > 0 ? '+' : ''}{analysis.systolicDiff}%)
+                  {analysis.avgYp} mmHg
+                  <span
+                    className={
+                      analysis.systolicDiff > 0
+                        ? 'text-red-600'
+                        : 'text-green-600'
+                    }
+                  >
+                    {' '}
+                    ({analysis.systolicDiff > 0 ? '+' : ''}
+                    {analysis.systolicDiff}%)
                   </span>
                 </span>
               </div>
               <div className="flex justify-between">
                 <span>Diastolinen keskiarvo:</span>
                 <span className="font-semibold">
-                  {analysis.avgAp} mmHg 
-                  <span className={analysis.diastolicDiff > 0 ? 'text-red-600' : 'text-green-600'}>
-                    {' '}({analysis.diastolicDiff > 0 ? '+' : ''}{analysis.diastolicDiff}%)
+                  {analysis.avgAp} mmHg
+                  <span
+                    className={
+                      analysis.diastolicDiff > 0
+                        ? 'text-red-600'
+                        : 'text-green-600'
+                    }
+                  >
+                    {' '}
+                    ({analysis.diastolicDiff > 0 ? '+' : ''}
+                    {analysis.diastolicDiff}%)
                   </span>
                 </span>
               </div>
@@ -182,14 +216,12 @@ function Stats({ data }) {
           {/* Tulkinta */}
           <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
             <p className="text-sm text-blue-900">
-              <strong>Tulkinta:</strong> {' '}
-              {analysis.isNormal ? (
-                'Verenpaineesi on normaalilla tasolla. Jatka terveellisiä elämäntapoja!'
-              ) : analysis.status === 'Lievästi koholla' ? (
-                'Verenpaineesi on lievästi koholla. Kiinnitä huomiota suolan vähentämiseen, liikuntaan ja stressinhallintaan.'
-              ) : (
-                'Verenpaineesi on koholla. Ota yhteys lääkäriin arvioinnin ja mahdollisen hoidon aloittamiseksi.'
-              )}
+              <strong>Tulkinta:</strong>{' '}
+              {analysis.isNormal
+                ? 'Verenpaineesi on normaalilla tasolla. Jatka terveellisiä elämäntapoja!'
+                : analysis.status === 'Lievästi koholla'
+                  ? 'Verenpaineesi on lievästi koholla. Kiinnitä huomiota suolan vähentämiseen, liikuntaan ja stressinhallintaan.'
+                  : 'Verenpaineesi on koholla. Ota yhteys lääkäriin arvioinnin ja mahdollisen hoidon aloittamiseksi.'}
             </p>
           </div>
 
@@ -201,40 +233,48 @@ function Stats({ data }) {
                 top: 20,
                 right: 20,
                 left: -10,
-                bottom: 10
+                bottom: 10,
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-             <XAxis
+              <XAxis
                 type="number"
                 dataKey="date"
-                domain={["dataMin", "dataMax"]}
+                domain={['dataMin', 'dataMax']}
                 scale="time"
                 interval="preserveStartEnd"
                 tickCount={6}
-                tickFormatter={timeStr => new Date(timeStr).toLocaleDateString("fi-FI")}
+                tickFormatter={(timeStr) =>
+                  new Date(timeStr).toLocaleDateString('fi-FI')
+                }
               />
               <Legend />
               <YAxis />
 
-            {/* Viitearvon viivat */}
-             <ReferenceLine 
-                y={130} stroke="#999" 
-                strokeDasharray="5 5" 
-                label={{ value: "Sys. viite 130", 
-                position: "insideTopRight", 
-                fontSize: 10, 
-                fill: "#999" }} 
-                />
+              {/* Viitearvon viivat */}
+              <ReferenceLine
+                y={130}
+                stroke="#999"
+                strokeDasharray="5 5"
+                label={{
+                  value: 'Sys. viite 130',
+                  position: 'insideTopRight',
+                  fontSize: 10,
+                  fill: '#999',
+                }}
+              />
 
-              <ReferenceLine 
-                y={85} stroke="#666" 
-                strokeDasharray="5 5" 
-                label={{ value: "Dias. viite 85", 
-                  position: "insideTopLeft", 
-                  fontSize: 10, 
-                  fill: "#666" }} 
-                />
+              <ReferenceLine
+                y={85}
+                stroke="#666"
+                strokeDasharray="5 5"
+                label={{
+                  value: 'Dias. viite 85',
+                  position: 'insideTopLeft',
+                  fontSize: 10,
+                  fill: '#666',
+                }}
+              />
 
               <Line
                 type="linear"
@@ -260,7 +300,11 @@ function Stats({ data }) {
                 activeDot={{ r: 8 }}
               />
 
-              <Tooltip labelFormatter={value => new Date(value).toLocaleDateString("fi-FI")} />
+              <Tooltip
+                labelFormatter={(value) =>
+                  new Date(value).toLocaleDateString('fi-FI')
+                }
+              />
             </LineChart>
           </ResponsiveContainer>
 
@@ -269,40 +313,77 @@ function Stats({ data }) {
             <h3 className="text-xl font-bold mb-4">Elämäntapa & verenpaine</h3>
 
             {(() => {
-              const allLifestyles = [...new Set(filteredData.flatMap(item => item.lifestyle || []))];
+              const allLifestyles = [
+                ...new Set(
+                  filteredData.flatMap((item) => item.lifestyle || [])
+                ),
+              ];
 
               if (allLifestyles.length === 0) {
                 return (
                   <div className="text-center py-4 text-gray-500 text-sm">
-                    Ei elämäntapamerkintejä. Lisää merkintejä mittaustuloksiin nähdäksesi korrelaation.
+                    Ei elämäntapamerkintejä. Lisää merkintejä mittaustuloksiin
+                    nähdäksesi korrelaation.
                   </div>
                 );
               }
 
-              const lifestyleStats = allLifestyles.map(lifestyle => {
-                const withLifestyle = filteredData.filter(item => (item.lifestyle || []).includes(lifestyle));
-                const withoutLifestyle = filteredData.filter(item => !(item.lifestyle || []).includes(lifestyle));
+              const lifestyleStats = allLifestyles.map((lifestyle) => {
+                const withLifestyle = filteredData.filter((item) =>
+                  (item.lifestyle || []).includes(lifestyle)
+                );
+                const withoutLifestyle = filteredData.filter(
+                  (item) => !(item.lifestyle || []).includes(lifestyle)
+                );
 
-                const avgYpWith = withLifestyle.length > 0
-                  ? (withLifestyle.reduce((sum, item) => sum + item.yp, 0) / withLifestyle.length).toFixed(1)
-                  : null;
-                const avgYpWithout = withoutLifestyle.length > 0
-                  ? (withoutLifestyle.reduce((sum, item) => sum + item.yp, 0) / withoutLifestyle.length).toFixed(1)
-                  : null;
-                const avgApWith = withLifestyle.length > 0
-                  ? (withLifestyle.reduce((sum, item) => sum + item.ap, 0) / withLifestyle.length).toFixed(1)
-                  : null;
+                const avgYpWith =
+                  withLifestyle.length > 0
+                    ? (
+                        withLifestyle.reduce((sum, item) => sum + item.yp, 0) /
+                        withLifestyle.length
+                      ).toFixed(1)
+                    : null;
+                const avgYpWithout =
+                  withoutLifestyle.length > 0
+                    ? (
+                        withoutLifestyle.reduce(
+                          (sum, item) => sum + item.yp,
+                          0
+                        ) / withoutLifestyle.length
+                      ).toFixed(1)
+                    : null;
+                const avgApWith =
+                  withLifestyle.length > 0
+                    ? (
+                        withLifestyle.reduce((sum, item) => sum + item.ap, 0) /
+                        withLifestyle.length
+                      ).toFixed(1)
+                    : null;
                 // KORJATTU: withOutLifestyle → withoutLifestyle
-                const avgApWithout = withoutLifestyle.length > 0
-                  ? (withoutLifestyle.reduce((sum, item) => sum + item.ap, 0) / withoutLifestyle.length).toFixed(1)
-                  : null;
+                const avgApWithout =
+                  withoutLifestyle.length > 0
+                    ? (
+                        withoutLifestyle.reduce(
+                          (sum, item) => sum + item.ap,
+                          0
+                        ) / withoutLifestyle.length
+                      ).toFixed(1)
+                    : null;
 
-                const ypDiff = avgYpWith && avgYpWithout
-                  ? (((avgYpWith - avgYpWithout) / avgYpWithout) * 100).toFixed(1)
-                  : null;
-                const apDiff = avgApWith && avgApWithout
-                  ? (((avgApWith - avgApWithout) / avgApWithout) * 100).toFixed(1)
-                  : null;
+                const ypDiff =
+                  avgYpWith && avgYpWithout
+                    ? (
+                        ((avgYpWith - avgYpWithout) / avgYpWithout) *
+                        100
+                      ).toFixed(1)
+                    : null;
+                const apDiff =
+                  avgApWith && avgApWithout
+                    ? (
+                        ((avgApWith - avgApWithout) / avgApWithout) *
+                        100
+                      ).toFixed(1)
+                    : null;
 
                 return {
                   name: lifestyle,
@@ -310,38 +391,56 @@ function Stats({ data }) {
                   avgYpWith,
                   avgApWith,
                   ypDiff,
-                  apDiff
+                  apDiff,
                 };
               });
 
               return (
                 <div className="space-y-3">
-                  {lifestyleStats.map(stat => (
-                    <div key={stat.name} className="border border-gray-200 rounded-lg p-3 bg-gray-50">
+                  {lifestyleStats.map((stat) => (
+                    <div
+                      key={stat.name}
+                      className="border border-gray-200 rounded-lg p-3 bg-gray-50"
+                    >
                       <div className="flex justify-between items-center mb-1">
-                        <span className="font-semibold text-sm">{stat.name}</span>
-                        <span className="text-xs text-gray-500">{stat.count} merkintää</span>
+                        <span className="font-semibold text-sm">
+                          {stat.name}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {stat.count} merkintää
+                        </span>
                       </div>
                       {stat.ypDiff !== null ? (
                         <div className="text-sm space-y-0.5">
                           <div className="flex justify-between">
                             <span className="text-gray-600">Systolinen:</span>
-                            <span className={`font-semibold ${parseFloat(stat.ypDiff) < 0 ? 'text-green-600' : 'text-red-600'}`}>
-                              {parseFloat(stat.ypDiff) < 0 ? '' : '+'}{stat.ypDiff}%
-                              <span className="text-gray-400 font-normal ml-1">({stat.avgYpWith} mmHg)</span>
+                            <span
+                              className={`font-semibold ${parseFloat(stat.ypDiff) < 0 ? 'text-green-600' : 'text-red-600'}`}
+                            >
+                              {parseFloat(stat.ypDiff) < 0 ? '' : '+'}
+                              {stat.ypDiff}%
+                              <span className="text-gray-400 font-normal ml-1">
+                                ({stat.avgYpWith} mmHg)
+                              </span>
                             </span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-gray-600">Diastolinen:</span>
-                            <span className={`font-semibold ${parseFloat(stat.apDiff) < 0 ? 'text-green-600' : 'text-red-600'}`}>
-                              {parseFloat(stat.apDiff) < 0 ? '' : '+'}{stat.apDiff}%
-                              <span className="text-gray-400 font-normal ml-1">({stat.avgApWith} mmHg)</span>
+                            <span
+                              className={`font-semibold ${parseFloat(stat.apDiff) < 0 ? 'text-green-600' : 'text-red-600'}`}
+                            >
+                              {parseFloat(stat.apDiff) < 0 ? '' : '+'}
+                              {stat.apDiff}%
+                              <span className="text-gray-400 font-normal ml-1">
+                                ({stat.avgApWith} mmHg)
+                              </span>
                             </span>
                           </div>
                         </div>
                       ) : (
                         <div className="text-xs text-gray-400">
-                          Tarvitsee merkintejä myös ilman tätä faktora vertailun vuoksi.
+                          Tarvitsee merkintejä myös ilman tätä faktora vertailun
+                          vuoksi.
                         </div>
                       )}
                     </div>
@@ -353,7 +452,6 @@ function Stats({ data }) {
         </>
       )}
     </div>
-    
   );
 }
 

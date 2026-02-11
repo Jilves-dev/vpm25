@@ -1,10 +1,16 @@
 import Button from '../shared/Button';
 import { useUser } from 'reactfire';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { useSdk } from '../sdk';
 
-function Settings({ types, onTypeSubmit, lifestyles, onLifestyleSubmit, onLifestyleDelete }) {
+function Settings({
+  types,
+  onTypeSubmit,
+  lifestyles,
+  onLifestyleSubmit,
+  onLifestyleDelete,
+}) {
   const { status: userStatus, data: user } = useUser();
   const { auth } = useSdk();
   const navigate = useNavigate();
@@ -14,7 +20,11 @@ function Settings({ types, onTypeSubmit, lifestyles, onLifestyleSubmit, onLifest
   }
 
   if (!user) {
-    return <div className="px-4 py-6">Käyttäjää ei löydy. Ole hyvä ja kirjaudu sisään uudelleen.</div>;
+    return (
+      <div className="px-4 py-6">
+        Käyttäjää ei löydy. Ole hyvä ja kirjaudu sisään uudelleen.
+      </div>
+    );
   }
 
   const handleSignOut = async () => {
@@ -23,7 +33,7 @@ function Settings({ types, onTypeSubmit, lifestyles, onLifestyleSubmit, onLifest
       navigate('/');
       window.location.reload();
     } catch (error) {
-      console.error("Sign out error:", error);
+      console.error('Sign out error:', error);
     }
   };
 
@@ -32,7 +42,7 @@ function Settings({ types, onTypeSubmit, lifestyles, onLifestyleSubmit, onLifest
     const newtype = event.target.elements.type.value;
     if (newtype.trim()) {
       onTypeSubmit(newtype);
-      event.target.elements.type.value = "";
+      event.target.elements.type.value = '';
     }
   };
 
@@ -41,7 +51,7 @@ function Settings({ types, onTypeSubmit, lifestyles, onLifestyleSubmit, onLifest
     const newlifestyle = event.target.elements.lifestyle.value;
     if (newlifestyle.trim()) {
       onLifestyleSubmit(newlifestyle);
-      event.target.elements.lifestyle.value = "";
+      event.target.elements.lifestyle.value = '';
     }
   };
 
@@ -54,7 +64,11 @@ function Settings({ types, onTypeSubmit, lifestyles, onLifestyleSubmit, onLifest
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
         <div className="flex items-center gap-3">
           {user.photoURL && (
-            <img src={user.photoURL} alt="" className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex-shrink-0" />
+            <img
+              src={user.photoURL}
+              alt=""
+              className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex-shrink-0"
+            />
           )}
           <div className="text-sm sm:text-base min-w-0">
             <div className="font-semibold truncate">{user.displayName}</div>
@@ -72,15 +86,23 @@ function Settings({ types, onTypeSubmit, lifestyles, onLifestyleSubmit, onLifest
       <div className="p-2 text-lg">
         {types && types.length > 0 ? (
           types.map((type) => (
-            <div key={type} className="p-1 rounded">{type}</div>
+            <div key={type} className="p-1 rounded">
+              {type}
+            </div>
           ))
         ) : (
           <div className="text-sm text-gray-500">Ei lisättyjä tyyppejä.</div>
         )}
         <form onSubmit={handleTypeSubmit}>
           <div className="flex mt-2">
-            <input type="text" name="type" className="flex-1 p-2 border border-gray-400 rounded text-base outline-none" />
-            <Button type="submit" primary>Lisää</Button>
+            <input
+              type="text"
+              name="type"
+              className="flex-1 p-2 border border-gray-400 rounded text-base outline-none"
+            />
+            <Button type="submit" primary>
+              Lisää
+            </Button>
           </div>
         </form>
       </div>
@@ -91,7 +113,10 @@ function Settings({ types, onTypeSubmit, lifestyles, onLifestyleSubmit, onLifest
         {lifestyles && lifestyles.length > 0 ? (
           <div className="flex flex-wrap gap-2">
             {lifestyles.map((lifestyle) => (
-              <div key={lifestyle} className="flex items-center bg-blue-50 border border-blue-200 rounded-full px-3 py-1">
+              <div
+                key={lifestyle}
+                className="flex items-center bg-blue-50 border border-blue-200 rounded-full px-3 py-1"
+              >
                 <span className="text-sm">{lifestyle}</span>
                 <button
                   type="button"
@@ -104,12 +129,21 @@ function Settings({ types, onTypeSubmit, lifestyles, onLifestyleSubmit, onLifest
             ))}
           </div>
         ) : (
-          <div className="text-sm text-gray-500">Ei lisättyjä kategorioita.</div>
+          <div className="text-sm text-gray-500">
+            Ei lisättyjä kategorioita.
+          </div>
         )}
         <form onSubmit={handleLifestyleSubmit}>
           <div className="flex mt-3">
-            <input type="text" name="lifestyle" placeholder="Uusi kategoria..." className="flex-1 p-2 border border-gray-400 rounded text-base outline-none" />
-            <Button type="submit" primary>Lisää</Button>
+            <input
+              type="text"
+              name="lifestyle"
+              placeholder="Uusi kategoria..."
+              className="flex-1 p-2 border border-gray-400 rounded text-base outline-none"
+            />
+            <Button type="submit" primary>
+              Lisää
+            </Button>
           </div>
         </form>
       </div>
